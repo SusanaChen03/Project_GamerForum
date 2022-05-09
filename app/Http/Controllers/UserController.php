@@ -13,7 +13,7 @@ class UserController extends Controller
     public function createNewUser(Request $request)
     {
         try {
-            Log::info('Init create contacts');
+            Log::info('Init create User');
 
             $validator = Validator::make($request->all(), [  
                 'name' => 'required|string',
@@ -61,7 +61,51 @@ class UserController extends Controller
             return response()->json($user, 200);
 
         } catch (\Throwable $th) {
-            Log::error('Ha ocurrido un error->'.$th->getMessage());
+            Log::error('failed to get user->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
+    public function updateUserById(Request $request, $id)
+    {
+        try {
+            Log::info('Update data user');
+           //$userId = auth()->user()->id;
+           $validator = Validator::make($request->all(), [   //validaciones, campo requerido
+            'name' => 'string|max:100',
+            'email' => 'email',
+            'password' => 'string',
+            'streamName' => 'string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        };
+        
+        $user = User::where('id',$id)->first();
+        if(empty($user)){
+            return response()->json(["error"=> "contact not exists"], 404);
+        };
+        if(isset($request->name)){
+            $user->name = $request->name;
+        }
+        if(isset($request->email)){
+            $user->email = $request->email;
+        }
+        if(isset($request->password)){
+            $user->password = $request->password;
+        }
+        if(isset($request->streamName)){
+            $user->streamName = $request->streamName;
+        }
+
+        $user->save();
+
+        return response()->json(["data"=>$user, "success"=>'User updated'], 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to update user data->'.$th->getMessage());
 
             return response()->json([ 'error'=> 'upssss!'], 500);
         }

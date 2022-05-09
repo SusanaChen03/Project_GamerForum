@@ -27,8 +27,8 @@ Route::post('/logout', [UserController::class, 'logoutUser']);    //authoritatio
 
 Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 
-Route::get('/user/{id}', [UserController::class, 'getUserById']);
+Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
 
-Route::patch('/user/{id}', [UserController::class, 'updateUserById']);
+Route::patch('/user/{id}', [UserController::class, 'updateUserById']);  
 
 Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);
