@@ -110,4 +110,26 @@ class UserController extends Controller
             return response()->json([ 'error'=> 'upssss!'], 500);
         }
     }
+
+    public function deleteUserById ($id)
+    {
+        try {
+            Log::info('delete user');
+            //$userId = auth()->user()->id;
+            $user = User::where('id',$id)->first();
+
+            if(empty($user)){
+                return response()->json(["error"=> "user not exists"], 404);
+            };
+            
+            $user->delete();
+
+            return response()->json(["data"=> "user deleted"], 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to delete user->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
 }

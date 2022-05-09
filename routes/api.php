@@ -29,6 +29,6 @@ Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 
 Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
 
-Route::patch('/user/{id}', [UserController::class, 'updateUserById']);  
+Route::patch('/user/{id}', [UserController::class, 'updateUserById']);    //created1
 
 Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);
