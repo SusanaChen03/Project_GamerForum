@@ -22,11 +22,11 @@ class AuthController extends Controller
                 'name' => 'required|string|max:100',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:3',
-                'streamName'=> 'required|string|max:100'
+                'streamName' => 'required|string|max:100'
             ]);
 
-            if($validator->fails()){            //metodo fails true o false
-                return response()->json($validator->errors()->toJson(),400);
+            if ($validator->fails()) {           
+                return response()->json($validator->errors()->toJson(), 400);
             }
 
             $user = User::create([
@@ -36,15 +36,14 @@ class AuthController extends Controller
                 'streamName' => $request->get('streamName')
             ]);
 
-            $token = JWTAuth::fromUser($user);   //recupera los datos del usuario y nos lo encripta a la $token
+            $token = JWTAuth::fromUser($user);
 
-            return response()->json(compact('user','token'),201);
-
+            return response()->json(compact('user', 'token'), 201);
         } catch (\Throwable $th) {
 
-            Log::error('failed to register User->'.$th->getMessage());
+            Log::error('failed to register User->' . $th->getMessage());
 
-            return response()->json([ 'error'=> 'upssss!'], 500);
+            return response()->json(['error' => 'upssss!'], 500);
         }
     }
 
@@ -57,19 +56,17 @@ class AuthController extends Controller
 
             $jwt_token = null;
 
-            
             if (!$jwt_token = JWTAuth::attempt($input)) {
                 return response()->json([
-                'success' => false,
-                'message' => 'Invalid Email or Password',
+                    'success' => false,
+                    'message' => 'Invalid Email or Password',
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
             return response()->json(['success' => true, 'token' => $jwt_token]);
-                
         } catch (\Throwable $th) {
 
-            Log::error('failed to Login User->'.$th->getMessage());
+            Log::error('failed to Login User->' . $th->getMessage());
 
             return response()->json(['error=> "Error login user'], 500);
         }
@@ -79,7 +76,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'token' => 'required'
-            ]);
+        ]);
 
         try {
             Log::info('Init Logout');
@@ -90,7 +87,6 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'User logged out successfully'
             ]);
-            
         } catch (\Exception $exception) {
 
             return response()->json([
@@ -106,16 +102,11 @@ class AuthController extends Controller
             Log::info('Init Get Profile');
 
             return response()->json(auth()->user());
-
         } catch (\Throwable $th) {
 
-            Log::error('failed to get your profile->'.$th->getMessage());
+            Log::error('failed to get your profile->' . $th->getMessage());
 
-            return response()->json(['error=> error profile'],500);
+            return response()->json(['error=> error profile'], 500);
         }
     }
-
-
-
-    
 }
