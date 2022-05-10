@@ -45,7 +45,31 @@ class AuthController extends Controller
         }
     }
 
-    
+    public function loginUser(Request $request)
+    {
+        try {
+            Log::info('Init Login');
+
+            $input = $request->only('email', 'password');
+
+            $jwt_token = null;
+
+            
+            if (!$jwt_token = JWTAuth::attempt($input)) {
+                return response()->json([
+                'success' => false,
+                'message' => 'Invalid Email or Password',
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+
+            return response()->json(['success' => true, 'token' => $jwt_token]);
+                
+        } catch (\Throwable $th) {
+            return response()->json(['error=> "Error login user'], 500);
+        }
+    }
+
+
 
     
 }
