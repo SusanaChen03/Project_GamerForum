@@ -127,4 +127,26 @@ class GameController extends Controller
         }
     }
 
+    public function deleteGame($id)
+    {
+        try {
+            Log::info('delete game');
+            $userId = auth()->user()->id;
+
+            $game = Game::where('id',$id)->where('user_id',$userId)->first();
+
+            if(empty($game)){
+                return response()->json(["error"=> "game not exists"], 404);
+            };
+            $game->delete();
+
+            return response()->json(["data"=> "game deleted"], 200);
+
+        } catch (\Throwable $th) {
+        Log::error('Failes ti deleted the game->'.$th->getMessage());
+
+        return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
 }
