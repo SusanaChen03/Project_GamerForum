@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\GameController;
 
 // Route::post('/user', function () {
 //     return 'CREATE USER BY ID';
@@ -43,8 +43,15 @@ Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);   //crea
 Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 });
 
-
-
+Route::group([
+    'middleware' => 'jwt.auth'
+], function(){
+    Route::post('/game', [GameController::class, 'createGame']);
+    Route::get('/gameId', [GameController::class, 'getAllGames']);
+    Route::get('/gameId', [GameController::class, 'getGameById']);
+    Route::patch('/game', [GameController::class, 'updateGameById']);
+    Route::delete('/game', [GameController::class, 'deleteGame']);
+});
 
 
 
