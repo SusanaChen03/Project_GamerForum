@@ -22,6 +22,9 @@ Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
 Route::patch('/user/{id}', [UserController::class, 'updateUserById']);    //created1
 Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);   //created1
 
+Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
+
+
 
 
 Route::post('/register', [UserController::class, 'registerUser']);    //authoritation
@@ -30,7 +33,6 @@ Route::post('/login', [UserController::class, 'loginUser']);    //authoritation
 
 Route::post('/logout', [UserController::class, 'logoutUser']);    //authoritation
 
-Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 
 
 

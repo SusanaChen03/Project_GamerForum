@@ -44,6 +44,32 @@ class UserController extends Controller
         }
     }
 
+    public function getAllUsers()
+    {
+        try {
+            Log::info('Init get all contacts');
+
+            $user = User::all(); 
+
+            if(empty($user)){
+                return response()->json(
+                    [
+                        "success" => "There are not users"
+                    ], 202
+                );
+            };
+
+            Log::info('Get all users');
+
+            return response()->json($user, 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to get all users->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
     public function getUserById ($id)
     {
         try {
