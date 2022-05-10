@@ -69,5 +69,30 @@ class GameController extends Controller
         }
     }
 
-    
+    public function getGameById($id) //busqueda por id del juego
+    {
+        try {
+            Log::info('Init get games by id');
+
+            $userId = auth()->user()->id;
+
+            $game = DB::table('games')->where('user_id',$userId)->first();
+
+            if(empty($game)){
+                return response()->json(
+                    [
+                        "error" => "Contact not exists"
+                    ],400
+                );
+            };
+
+            return response()->json($game, 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to get game by id->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
 }
