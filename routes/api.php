@@ -18,6 +18,11 @@ use App\Http\Controllers\UserController;
 
 
 Route::post('/user', [UserController::class, 'createNewUser']);  //created1
+Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
+Route::patch('/user/{id}', [UserController::class, 'updateUserById']);    //created1
+Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);   //created1
+
+
 
 Route::post('/register', [UserController::class, 'registerUser']);    //authoritation
 
@@ -27,8 +32,5 @@ Route::post('/logout', [UserController::class, 'logoutUser']);    //authoritatio
 
 Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 
-Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
 
-Route::patch('/user/{id}', [UserController::class, 'updateUserById']);    //created1
 
-Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);
