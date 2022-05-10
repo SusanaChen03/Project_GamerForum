@@ -41,5 +41,33 @@ class GameController extends Controller
         }
     }
 
+    public function getAllGames()
+    {
+        try {
+            Log::info('Init get all games');
+
+            $userId = auth()->user()->id;
+
+            $game = User::find($userId)->games;
+
+            if(empty($game)){
+                return response()->json(
+                    [
+                        "success" => "There are not games"
+                    ], 202
+                );
+            };
+
+            return response()->json($game, 200);
+            
+        } catch (\Throwable $th) {
+
+            Log::error('failed to get all the games->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);  
+
+        }
+    }
+
     
 }

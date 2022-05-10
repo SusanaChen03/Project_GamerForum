@@ -47,7 +47,7 @@ Route::group([
     'middleware' => 'jwt.auth'
 ], function(){
     Route::post('/game', [GameController::class, 'createGame']);
-    Route::get('/gameId', [GameController::class, 'getAllGames']);
+    Route::get('/games', [GameController::class, 'getAllGames']);
     Route::get('/gameId', [GameController::class, 'getGameById']);
     Route::patch('/game', [GameController::class, 'updateGameById']);
     Route::delete('/game', [GameController::class, 'deleteGame']);
