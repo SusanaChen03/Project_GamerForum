@@ -69,19 +69,19 @@ class GameController extends Controller
         }
     }
 
-    public function getGameById($id) //busqueda por id del juego
+    public function getGameById($id) //busqueda por id del usuario 
     {
         try {
             Log::info('Init get games by id');
 
             $userId = auth()->user()->id;
 
-            $game = DB::table('games')->where('user_id',$userId)->first();
+            $game = DB::table('games')->where('user_id',$userId)->where('user_id',$id)->get();
 
             if(empty($game)){
                 return response()->json(
                     [
-                        "error" => "Contact not exists"
+                        "error" => "Game not exists"
                     ],400
                 );
             };
@@ -91,6 +91,38 @@ class GameController extends Controller
         } catch (\Throwable $th) {
             Log::error('failed to get game by id->'.$th->getMessage());
 
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
+    public function updateGameById(Request $request, $id)
+    {
+        try {
+            Log::info('Update by id');
+            $userId = auth()->user()->id;
+
+            $validator = Validator::make($request->all(), [   
+                'name' => 'string|max:100',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            };
+
+            $game = Game::where('id',$id)->where('user_id',$userId)->first();
+
+            if(empty($game)){
+                return response()->json(["error"=> "game not exists"], 404);
+            };
+            if(isset($request->name)){
+                $game->name = $request->name;
+            }
+            $game->save();
+
+            return response()->json(["data"=>$game, "success"=>'Game updated'], 200);
+            
+        } catch (\Throwable $th) {
+            Log::error('Failed ti update the game->'.$th->getMessage());
             return response()->json([ 'error'=> 'upssss!'], 500);
         }
     }
