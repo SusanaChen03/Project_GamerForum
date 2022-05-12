@@ -62,4 +62,29 @@ class ChannelController extends Controller
             return response()->json([ 'error'=> 'upssss!'.$th->getMessage()], 500);
         }
     }
+
+    
+    public function getAllChannels()
+    {
+        try {
+            Log::info('Init get all channels');
+            $channel = Channel::all(); 
+            if(empty($channel)){
+                return response()->json(
+                    [
+                        "success" => "There are not channels"
+                    ], 202
+                );
+            };
+            Log::info('Get all channels');
+
+            return response()->json($channel, 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to get all channels->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
 }
