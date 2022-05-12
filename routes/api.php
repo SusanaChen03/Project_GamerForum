@@ -52,13 +52,11 @@ Route::group([
     Route::get('/game/{id}', [GameController::class, 'getGameById']);
     Route::patch('/game/{id}', [GameController::class, 'updateGameById']);
     Route::delete('/game/{id}', [GameController::class, 'deleteGame']);
-    Route::post('/channel', [ChannelController::class, 'createChannel']);
-
 });
 
-    
-// Route::get('/channel/{id}', [channelController::class], 'getChannelById');
-// Route::get('/channels', [channelController::class], 'getAllChannels');
-// Route::patch('/channel/{id}', [channelController::class], 'updateChannel');
-// Route::delete('/channel/{id}', [channelController::class], 'deleteChannel');
+Route::post('/channel', [ChannelController::class, 'createChannel']);
+Route::get('/channel/{id}', [channelController::class, 'getChannelById']);
+//Route::get('/channels', [channelController::class, 'getAllChannels']);
+// Route::patch('/channel/{id}', [channelController::class, 'updateChannel']);
+// Route::delete('/channel/{id}', [channelController::class, 'deleteChannel']);
 

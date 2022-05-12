@@ -38,4 +38,28 @@ class ChannelController extends Controller
             return response()->json([ 'error'=> 'upsss'], 418);
         }
     }
+
+    public function getChannelById ($id)  
+    {
+        try {
+            Log::info('Init get channel by id');
+
+            $channel = DB::table('channels')->where('game_id',$id)->get();
+          
+            if(empty($channel)){
+                return response()->json(
+                    [
+                        "error" => "channel not exists"
+                    ],400
+                );
+            };
+            
+            return response()->json($channel, 200);
+
+        } catch (\Throwable $th) {
+            Log::error('failed to get channel by id->'.$th->getMessage());
+        
+            return response()->json([ 'error'=> 'upssss!'.$th->getMessage()], 500);
+        }
+    }
 }
