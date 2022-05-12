@@ -14,8 +14,13 @@ class Game extends Model
         'user_id'    
     ];
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');    //el modelo contacto pertenece a usuarios
+    }
+
+    public function channels()
+    {
+        return $this->hasMany(Channel::class);
     }
 }
