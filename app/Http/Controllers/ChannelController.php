@@ -119,4 +119,24 @@ class ChannelController extends Controller
         }
     }
 
+    public function deleteChannel($id)
+    {
+        try {
+            Log::info('delete Channel');
+            $channel = Channel::where('id', $id)->first();
+
+            if(empty($channel)){
+                return response()->json(["error"=> "channel not exists"], 404);
+            };
+            $channel->delete();
+
+            return response()->json(["data"=> "channel deleted"], 200);
+            
+        } catch (\Throwable $th) {
+            Log::error('Failes to deleted the channel->'.$th->getMessage());
+
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
 }
