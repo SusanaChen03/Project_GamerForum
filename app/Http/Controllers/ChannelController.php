@@ -87,4 +87,36 @@ class ChannelController extends Controller
         }
     }
 
+    public function updateChannel(Request $request, $id)
+    {
+        try {
+            Log::info('Update channel by id');
+
+            $validator = Validator::make($request->all(), [   
+                'name' => 'string|max:100',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            };
+
+            $channel = Channel::where('id', $id)->first();
+
+            if(empty($channel)){
+                return response()->json(["error"=> "channel not exists"], 404);
+            };
+            if(isset($request->name)){
+                $channel->name = $request->name;
+            }
+            $channel->save();
+
+            return response()->json(["data"=>$channel, "success"=>'channel updated'], 200);
+
+            
+        } catch (\Throwable $th) {
+            Log::error('Failed to update the channel->'.$th->getMessage());
+            return response()->json([ 'error'=> 'upssss!'], 500);
+        }
+    }
+
 }
