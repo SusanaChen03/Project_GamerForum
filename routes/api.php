@@ -54,4 +54,9 @@ Route::group([
 });
 
 
+Route::post('/channel', [channelController::class], 'createChannel');
+Route::get('/channel/{id}', [channelController::class], 'getChannelById');
+Route::get('/channels', [channelController::class], 'getAllChannels');
+Route::patch('/channel/{id}', [channelController::class], 'updateChannel');
+Route::delete('/channel/{id}', [channelController::class], 'deleteChannel');
 
