@@ -63,4 +63,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Game::class);  //un usuario(User.php)(donde estoy) puede tener hasMany contactos
     }
 
+    public function channels()   //many to many
+    {
+        return $this->belongsToMany(Channel::class);
+    }
+
 };
