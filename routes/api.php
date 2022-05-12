@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\GameController;
 
 // Route::post('/user', function () {
@@ -51,12 +52,13 @@ Route::group([
     Route::get('/game/{id}', [GameController::class, 'getGameById']);
     Route::patch('/game/{id}', [GameController::class, 'updateGameById']);
     Route::delete('/game/{id}', [GameController::class, 'deleteGame']);
+    Route::post('/channel', [ChannelController::class, 'createChannel']);
+
 });
 
-
-Route::post('/channel', [channelController::class], 'createChannel');
-Route::get('/channel/{id}', [channelController::class], 'getChannelById');
-Route::get('/channels', [channelController::class], 'getAllChannels');
-Route::patch('/channel/{id}', [channelController::class], 'updateChannel');
-Route::delete('/channel/{id}', [channelController::class], 'deleteChannel');
+    
+// Route::get('/channel/{id}', [channelController::class], 'getChannelById');
+// Route::get('/channels', [channelController::class], 'getAllChannels');
+// Route::patch('/channel/{id}', [channelController::class], 'updateChannel');
+// Route::delete('/channel/{id}', [channelController::class], 'deleteChannel');
 
