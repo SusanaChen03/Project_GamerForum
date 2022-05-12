@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use PhpParser\Node\Expr\AssignOp\Concat;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -58,4 +59,10 @@ class User extends Authenticatable implements JWTSubject
     {
     return [];
     }
-}
+
+    public function contacts()  //relacion uno a mucho de usuarios a contacto
+    {
+        return $this->hasMany(Game::class);  //un usuario(User.php)(donde estoy) puede tener hasMany contactos
+    }
+
+};

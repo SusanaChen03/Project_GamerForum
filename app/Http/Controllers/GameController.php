@@ -48,8 +48,8 @@ class GameController extends Controller
 
             $userId = auth()->user()->id;
 
-            $game = User::find($userId)->games;
-
+            $game = DB::table('games')->where('user_id', $userId)->get()->toArray();
+            
             if(empty($game)){
                 return response()->json(
                     [
