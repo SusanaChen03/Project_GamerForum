@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -15,18 +13,16 @@ class GameController extends Controller
     {
         try {
             Log::info('Init create game');
-
             $validator = Validator::make($request->all(), [   
                 'name' => 'required|string',
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 400);
+                return response()->json($validator->errors(), 418);
             };
 
             $newGame = new Game();
             $userId = auth()->user()->id;
-
             $newGame->name = $request->name;
             $newGame->user_id=$userId;  
 
@@ -35,9 +31,9 @@ class GameController extends Controller
             return response()->json(["data"=>$newGame, "success"=>'Game created'], 200);
      
         } catch (\Throwable $th) {
-            Log::error('failed to create the game->'.$th->getMessage());
+            Log::error('Failed to create the game->'.$th->getMessage());
 
-            return response()->json([ 'error'=> 'upssss!'], 500);
+            return response()->json([ 'error'=> 'Ups! Something wrong'], 500);
         }
     }
 
@@ -45,7 +41,6 @@ class GameController extends Controller
     {
         try {
             Log::info('Init get all games');
-
             $userId = auth()->user()->id;
 
             $game = DB::table('games')->where('user_id', $userId)->get()->toArray();
@@ -62,9 +57,8 @@ class GameController extends Controller
             
         } catch (\Throwable $th) {
 
-            Log::error('failed to get all the games->'.$th->getMessage());
-
-            return response()->json([ 'error'=> 'upssss!'], 500);  
+            Log::error('Failed to get all the games->'.$th->getMessage());
+            return response()->json([ 'error'=> 'Ups! Something wrong'], 500);  
 
         }
     }
@@ -73,7 +67,6 @@ class GameController extends Controller
     {
         try {
             Log::info('Init get games by id');
-
             $userId = auth()->user()->id;
 
             $game = DB::table('games')->where('user_id',$userId)->where('user_id',$id)->get();
@@ -82,16 +75,16 @@ class GameController extends Controller
                 return response()->json(
                     [
                         "error" => "Game not exists"
-                    ],400
+                    ],404
                 );
             };
 
             return response()->json($game, 200);
 
         } catch (\Throwable $th) {
-            Log::error('failed to get game by id->'.$th->getMessage());
+            Log::error('Failed to get game by id->'.$th->getMessage());
 
-            return response()->json([ 'error'=> 'upssss!'], 500);
+            return response()->json([ 'error'=> 'Ups! Something wrong'], 500);
         }
     }
 
@@ -106,7 +99,7 @@ class GameController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 400);
+                return response()->json($validator->errors(), 418);
             };
 
             $game = Game::where('id',$id)->where('user_id',$userId)->first();
@@ -114,16 +107,18 @@ class GameController extends Controller
             if(empty($game)){
                 return response()->json(["error"=> "game not exists"], 404);
             };
+
             if(isset($request->name)){
                 $game->name = $request->name;
-            }
+            };
+
             $game->save();
 
             return response()->json(["data"=>$game, "success"=>'Game updated'], 200);
             
         } catch (\Throwable $th) {
-            Log::error('Failed ti update the game->'.$th->getMessage());
-            return response()->json([ 'error'=> 'upssss!'], 500);
+            Log::error('Failed to update the game->'.$th->getMessage());
+            return response()->json([ 'error'=> 'Ups! Something wrong'], 500);
         }
     }
 
@@ -143,10 +138,9 @@ class GameController extends Controller
             return response()->json(["data"=> "game deleted"], 200);
 
         } catch (\Throwable $th) {
-        Log::error('Failes ti deleted the game->'.$th->getMessage());
+        Log::error('Failes to deleted the game->'.$th->getMessage());
 
-        return response()->json([ 'error'=> 'upssss!'], 500);
+        return response()->json([ 'error'=> 'Ups! Something wrong'], 500);
         }
     }
-
 }

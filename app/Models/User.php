@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use PhpParser\Node\Expr\AssignOp\Concat;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
@@ -60,7 +58,7 @@ class User extends Authenticatable implements JWTSubject
     return [];
     }
 
-    public function games()  //relacion uno a mucho de usuarios a contacto
+    public function games()  //one to many
     {
         return $this->hasMany(Game::class);  //un usuario(User.php)(donde estoy) puede tener hasMany contactos
     }
