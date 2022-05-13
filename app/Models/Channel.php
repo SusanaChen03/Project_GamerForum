@@ -11,7 +11,8 @@ class Channel extends Model
 
     protected $fillable = [
         'name',
-        'game_id'
+        'game_id',
+        'user_id'
     ];
 
     public function games()
