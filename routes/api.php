@@ -20,30 +20,30 @@ use App\Http\Controllers\GameController;
 
 //localhost:8000/api/
 
+//NO NEED AUTHORIZATION
+Route::post('/register', [AuthController::class, 'registerUser']);  
+Route::post('/login', [AuthController::class, 'loginUser']);  
 
-Route::post('/register', [AuthController::class, 'registerUser']);    //authoritation
-
-Route::post('/login', [AuthController::class, 'loginUser']);    //authoritation
-
-
+//AUTH
 Route::group([
     'middleware' => 'jwt.auth'
 ], function(){
-Route::post('/logout', [AuthController::class, 'logoutUser']);    //authoritation
-Route::get('/profile', [AuthController::class, 'getMyProfile']);  //authoritation
+Route::post('/logout', [AuthController::class, 'logoutUser']);    
+Route::get('/profile', [AuthController::class, 'getMyProfile']); 
 });
 
-
+// USERS
 Route::group([
     'middleware' => 'jwt.auth'
 ], function(){
-//Route::post('/user', [UserController::class, 'createNewUser']);  //created1
-Route::get('/user/{id}', [UserController::class, 'getUserById']);   //created1
-Route::patch('/user/{id}', [UserController::class, 'updateUserById']);    //created1
-Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);   //created1
+Route::post('/user', [UserController::class, 'createNewUser']);  
+Route::get('/user/{id}', [UserController::class, 'getUserById']);   
+Route::patch('/user/{id}', [UserController::class, 'updateUserById']);   
+Route::delete('/user/{id}', [UserController::class, 'deleteUserById']);   
 Route::get('/users', [UserController::class, 'getAllUsers']);    //for admin
 });
 
+//GAMES
 Route::group([
     'middleware' => 'jwt.auth'
 ], function(){
@@ -54,9 +54,23 @@ Route::group([
     Route::delete('/game/{id}', [GameController::class, 'deleteGame']);
 });
 
+
+//CHANNELS
+Route::group([
+    'middleware' => 'jwt.auth'
+], function(){
 Route::post('/channel', [ChannelController::class, 'createChannel']);
 Route::get('/channel/{id}', [channelController::class, 'getChannelById']);
 Route::get('/channels', [channelController::class, 'getAllChannels']);
 Route::patch('/channel/{id}', [channelController::class, 'updateChannel']);
 Route::delete('/channel/{id}', [channelController::class, 'deleteChannel']);
 
+Route::post('/channelByUser', [channelController::class, 'createChannelByUserId']);
+Route::get('/getChannelByUser/{id}', [channelController::class, 'getChannelByUserId']);
+});
+
+//MESSAGES
+
+
+
+//MIDDLE TABLES

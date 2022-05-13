@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Channel;
+use App\Models\User;
+use App\Models\Game;
 class ChannelController extends Controller
 {
     public function createChannel(Request $request)
@@ -33,6 +35,46 @@ class ChannelController extends Controller
             Log::error('Failed to create the channel->'.$th->getMessage());
 
             return response()->json([ 'error'=> 'Upsss! Something wrong'], 418);
+        }
+    }
+
+    public function createChannelByUserId(Request $request)
+    {
+        try {
+            Log::info('Init create createChannelByUserId');
+            
+            $user = User::find($request->iduser);
+            $user->channels()->attach($request->idchannel);
+             
+            return response()->json(["data"=>"ok", "success"=>'Channel created'], 200);
+
+        } catch (\Throwable $th) {
+            Log::error('Failed to create the channel->'.$th->getMessage());
+            return response()->json([ 'error'=> $th->getMessage()], 418);
+        }
+    }
+    
+    public function getChannelByUserId ($id)  
+    {
+        try {
+            Log::info('Init get channel by id');
+
+            $channel = DB::table('channel_user')->where('user_id',$id)->get();
+
+            if(empty($channel)){
+                return response()->json(
+                    [
+                        "error" => "channel not exists"
+                    ],400
+                );
+            };
+            
+            return response()->json($channel, 200);
+
+        } catch (\Throwable $th) {
+            Log::error('Failed to get channel by id->'.$th->getMessage());
+        
+            return response()->json([ 'error'=> 'Upsss! Something wrongs!'.$th->getMessage()], 500);
         }
     }
 
