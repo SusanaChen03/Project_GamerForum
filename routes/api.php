@@ -76,10 +76,10 @@ Route::group([
     'middleware' => 'jwt.auth'
 ], function(){
 Route::post('/message/{id}', [MessageController::class, 'createMessage']);    //buscar id channel
-// Route::get('/message/{id}', [MessageController::class, 'getMessageById']);
-// Route::get('/messages', [MessageController::class, 'getAllMessages']);
-// Route::patch('/message', [MessageController::class, 'updateMessage']);
-// Route::delete('/message', [MessageController::class, 'createMessage']);
+Route::get('/message/{id}', [MessageController::class, 'getMessageById']);
+Route::get('/messages', [MessageController::class, 'getAllMessages']);
+Route::patch('/message/{id}', [MessageController::class, 'updateMessageById']);
+Route::delete('/message/{id}', [MessageController::class, 'deletedMessage']);
 
 });
 
