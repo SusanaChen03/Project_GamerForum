@@ -40,7 +40,7 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             Log::error('Failed to register user->' . $th->getMessage());
 
-            return response()->json(['error' => 'Upsss! Something Wrong'], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
