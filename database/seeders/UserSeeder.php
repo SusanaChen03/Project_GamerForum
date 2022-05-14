@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -19,7 +20,7 @@ class UserSeeder extends Seeder
             [
             'name'=>'sanki',
             'email'=>'sanki@sanki.com',
-            'password'=>'sanki',
+            'password'=>Hash::make('sanki'),
             'streamName'=>'carapanchini'
             ]);
 
@@ -27,7 +28,7 @@ class UserSeeder extends Seeder
             [
             'name'=>'muxi',
             'email'=>'muxi@muxi.com',
-            'password'=>'muxi',
+            'password'=>Hash::make('muxi'),
             'streamName'=>'muxiguapa'
             ]);
 
