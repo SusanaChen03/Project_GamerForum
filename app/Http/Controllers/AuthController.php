@@ -21,7 +21,7 @@ class AuthController extends Controller
                 'password' => 'required|string|min:3',
                 'streamName' => 'required|string|max:100'
             ]);
-
+ 
             if ($validator->fails()) {           
                 return response()->json($validator->errors()->toJson(), 418);
             };
