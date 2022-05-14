@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\MessageController;
 
 // Route::post('/user', function () {
 //     return 'CREATE USER BY ID';
@@ -66,11 +67,19 @@ Route::patch('/channel/{id}', [channelController::class, 'updateChannel']);
 Route::delete('/channel/{id}', [channelController::class, 'deleteChannel']);
 
 Route::post('/channelByUser', [channelController::class, 'createChannelByUserId']);
-Route::get('/getChannelByUser/{id}', [channelController::class, 'getChannelByUserId']);
+Route::get('/getChannelByUser', [channelController::class, 'getChannelByUserId']);
 });
 
 //MESSAGES
+Route::group([
+    'middleware' => 'jwt.auth'
+], function(){
+Route::post('/message/{id}', [MessageController::class, 'createMessage']);    //buscar id channel
+// Route::get('/message/{id}', [MessageController::class, 'getMessageById']);
+// Route::get('/messages', [MessageController::class, 'getAllMessages']);
+// Route::patch('/message', [MessageController::class, 'updateMessage']);
+// Route::delete('/message', [MessageController::class, 'createMessage']);
+
+});
 
 
-
-//MIDDLE TABLES
