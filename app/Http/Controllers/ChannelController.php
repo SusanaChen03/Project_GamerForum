@@ -177,4 +177,22 @@ class ChannelController extends Controller
         }
     }
 
+    public function letChannelByUserId(Request $request)
+    {
+        try {
+            Log::info('leave to the Channel by User');
+            $userId = auth()->user()->id;
+
+            $user = User::find($userId);
+            $user->channels()->detach($request->idchannel);
+             
+            return response()->json(["data"=>"ok", "success"=>'Abandon the channel'], 200);
+
+        } catch (\Throwable $th) {
+            Log::error('Failed to abandon the channel->'.$th->getMessage());
+            return response()->json([ 'error'=> $th->getMessage()], 418);
+        }
+        
+    }
+
 }

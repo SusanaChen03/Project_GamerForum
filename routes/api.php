@@ -68,6 +68,7 @@ Route::delete('/channel/{id}', [channelController::class, 'deleteChannel']);
 
 Route::post('/channelByUser', [channelController::class, 'createChannelByUserId']);
 Route::get('/getChannelByUser', [channelController::class, 'getChannelByUserId']);
+Route::post('/letChannelByUser', [channelController::class, 'letChannelByUserId']);
 });
 
 //MESSAGES
