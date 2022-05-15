@@ -8,11 +8,14 @@
 - [Tech Stack 🛠](#tech-stack-) ok
 - [Descripción 🛠](#Descripción-) ok
 - [Tablas 🗄](#tables-) ok
-- [Relaciones 🪢](#relaciones-)
+- [Relaciones 🪢](#relaciones-) ok 
+- [Endpoints 📋](#endpoints-) 
+
+
   - [Instalación ⚙️](#Instalación-️) 
 
    
-    - [Endpoints 📋](#endpoints-)
+ 
       - [User registration](#user-registration)
       - [User profile (requires JWT)](#user-profile-requires-jwt)
       - [Games (requires JWT)](#games-requires-jwt)
@@ -71,15 +74,33 @@ A continuación cito los objetivos MVP del proyecto:
  ![tablas_gamerForum.PNG](./app/images/tablas_gamerForum.PNG)
  
 
-## Relaciones 🪢
+
 Cómo podéis observar he realizado 4 entidades referenciadas como User, Game, Channel y Message, más la tabla intermedia entre User y Channel.
 - Tabla `User`:  
-Contiene los datos necesarios de los jugadores para registrarse en el sistema, que está relacionada con Roles, Parties y Messages.
-- Tabla `Roles`:
-Contiene los roles de los usuarios registrados en la base de datos, que son `player` y `admin`, al registrarse un usuario se le añade el role por defecto de player, mientras que solo los admins pueden asignar el role admin a otro player. He realizado un middleware del role admin para ese caso. Entre Roles y Users al ser una relacion N:M se genera una tabla intermedia dónde existen dos claves foráneas, una de users y otra de roles.
-- Tabla `Games`:
-Esta tabla es muy sencilla ya que solo contiene el nombre del videojuego popular al que se realiza la búsqueda de partidas, tiene un campo isActive para que en un futuro se pueda activar o desactivar el videojuego si no funciona o deja de estar en producción.
-- Tabla `Parties`:
-Contiene la información sobre las salas o "Parties", que es dónde se desarrolla la parte más importante, dónde los players pueden unirse o dejar la party, escribir, editar y borrar mensajes, y visualizar los mensajes de otros players que esten unidos a la misma. Como en roles, Parties tiene una relacion N:M con Users, por lo que se genera la tabla intermedia con las foráneas correspondientes, y además he realizado otra relación entre Users y Parties de 1:N para poder enlazar el usuario que ha creado la party.
+Contiene los datos necesarios de los jugadores para registrarse en el sistema, que está relacionada con Channel y Messages.
+
+- Tabla `Game`:
+Esta tabla es muy sencilla ya que solo contiene el nombre del juego al que se realiza la búsqueda de canales.
+
+- Tabla `Channel`:
+Contiene la información sobre las salas o "Channels", que es dónde se desarrolla la parte más importante, dónde los usuarios pueden unirse o dejar el canal, escribir, editar y borrar mensajes, y visualizar los mensajes de otros usuarios que esten unidos a la misma. 
+
 - Tabla `Messages`:
-Esta tabla contiene los mensajes que crean los usuarios, contiene la clave foránea de Users y de Parties, solo se pueden crear y visualizar mensajes los usuarios que estén unidos a esa party.
+Esta tabla contiene los mensajes que crean los usuarios, contiene la clave foránea de User y de Channel, solo se pueden crear y visualizar mensajes los usuarios que estén unidos a esa party.
+
+- Tabla intermedia `Channel_User`:
+Esta es la tabla intermedia que se genera con la relacion de muchos a muchos, dentro de esta se encuentran la clave forénea de esas dos.
+
+
+## Relaciones 🪢
+
+Las relaciones entre las tablas son las siguientes:
+
+```
+- User vs Game  1:N
+- Channel vs Game  1:N
+- User vs Channel N:M
+- User vs Message 1:N
+- Channel vs Message 1:N 
+```
+
